@@ -1,0 +1,35 @@
+<div class='page-header'>
+  <h1>ETS Driver Roster</h1>
+</div>
+<div class='btn-group'>
+  <a class='btn' href="/drivers/new">New Driver</a>
+  <a class='btn' href="/dispatches">Back to Dispatches</a>
+</div>
+<br/>
+<hr/>
+<br/>
+<div class="panel panel-default">
+  <div class="panel-heading">Active Drivers</div>
+  <table class="table">
+    <thead>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+    </thead>
+    <tbody>
+      <% @drivers.each do |driver| %>
+        <tr>
+          <td><%= driver.id %></td>
+          <td><%= driver.name %></td>
+          <td><%= driver.phone %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br/>
+<hr/>
+<br/>
+<section id='driver-footer'>
+  <a href="/auth/logout">Logout</a>
+</section>

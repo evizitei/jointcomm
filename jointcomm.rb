@@ -75,7 +75,8 @@ class JointComm < Sinatra::Base
 
   get '/dispatches' do
     env['warden'].authenticate!
-    @calls = Call.all
+    @queued_calls = Call.unassigned
+    @active_calls = Call.in_flight
     erb :main_layout, layout: false do
       erb :dispatches
     end
@@ -83,12 +84,54 @@ class JointComm < Sinatra::Base
 
   get '/calls/new' do
     env['warden'].authenticate!
-    erb :new_call
+    erb :main_layout, layout: false do
+      erb :new_call
+    end
   end
 
   post '/calls/create' do
+    env['warden'].authenticate!
     Call.create(params[:call])
     redirect to('/dispatches')
+  end
+
+  get "/calls/pick_driver" do
+    env['warden'].authenticate!
+    @drivers = Driver.all
+    @call = Call.get(params[:id])
+    erb :main_layout, layout: false do
+      erb :calls_pick_driver
+    end
+  end
+
+  post "/calls/assign" do
+    env['warden'].authenticate!
+    @call = Call.get(params[:id])
+    @driver = Driver.get(params[:driver_id])
+    @call.driver_id = @driver.id
+    @call.save
+    redirect to('/dispatches')
+  end
+
+  get '/drivers/index' do
+    env['warden'].authenticate!
+    @drivers = Driver.all
+    erb :main_layout, layout: false do
+      erb :drivers
+    end
+  end
+
+  get '/drivers/new' do
+    env['warden'].authenticate!
+    erb :main_layout, layout: false do
+      erb :new_driver
+    end
+  end
+
+  post '/drivers/create' do
+    env['warden'].authenticate!
+    Driver.create(params[:driver])
+    redirect to('/drivers/index')
   end
 end
 

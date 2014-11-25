@@ -1,33 +1,65 @@
 <div class='page-header'>
   <h1>ETS Dispatch Center</h1>
 </div>
-<a href="/calls/new">New Call</a>
+<div class='btn-group'>
+  <a class='btn' href="/calls/new">New Call</a>
+  <a class='btn' href="/drivers/index">Manage Drivers</a>
+</div>
 <br/>
 <hr/>
 <br/>
 <div class="panel panel-default">
-  <div class="panel-heading">Active Calls</div>
+  <div class="panel-heading">Call Queue</div>
   <table class="table">
     <thead>
-      <th>ID</th>
       <th>Pickup</th>
       <th>Dropoff</th>
       <th>Phone</th>
       <th>Price</th>
+      <th>Timestamp</th>
+      <th>Action</th>
     </thead>
     <tbody>
-      <% @calls.each do |call| %>
+      <% @queued_calls.each do |call| %>
         <tr>
-          <td><%= call.id %></td>
           <td><%= call.pickup %></td>
           <td><%= call.dropoff %></td>
           <td><%= call.phone %></td>
           <td><%= call.price %></td>
+          <td><%= call.created_at %></td>
+          <td>
+            <button class='btn btn-default'>
+              <a href="/calls/pick_driver?id=<%= call.id %>">Assign</a>
+            </button>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Active Calls</div>
+  <table class="table">
+    <thead>
+      <th>Dropoff</th>
+      <th>Phone</th>
+      <th>Driver</th>
+      <th>Timestamp</th>
+    </thead>
+    <tbody>
+      <% @active_calls.each do |call| %>
+        <tr>
+          <td><%= call.dropoff %></td>
+          <td><%= call.phone %></td>
+          <td><%= call.driver.name %></td>
+          <td><%= call.created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 <br/>
 <hr/>
 <br/>
