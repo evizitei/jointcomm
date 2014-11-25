@@ -1,6 +1,12 @@
 require 'bundler'
 Bundler.require
 
+require 'dotenv'
+Dotenv.load
+
+require './config/twilio'
+require './config/bitly'
+require './twilio_proxy'
 require './model'
 
 class JointComm < Sinatra::Base
@@ -110,7 +116,22 @@ class JointComm < Sinatra::Base
     @driver = Driver.get(params[:driver_id])
     @call.driver_id = @driver.id
     @call.save
+    TwilioProxy.send_call_alert(@driver, @call)
     redirect to('/dispatches')
+  end
+
+  get "/calls/acknowledge" do
+    @call = Call.get(params[:id])
+    @call.acknowledged_at = DateTime.now
+    @call.save
+    "Call #{@call.id} Acknoweldged"
+  end
+
+  get "/calls/clear" do
+    @call = Call.get(params[:id])
+    @call.cleared_at = DateTime.now
+    @call.save
+    "Call #{@call.id} Cleared"
   end
 
   get '/drivers/index' do

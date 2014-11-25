@@ -29,6 +29,8 @@ class Call
   property :phone, String
   property :price, String
   property :driver_id, Integer
+  property :notes, Text
+  property :acknowledged_at, DateTime
   property :cleared_at, DateTime
   property :created_at, DateTime
   property :created_on, Date
@@ -36,11 +38,13 @@ class Call
   property :updated_on, Date
 
   def self.unassigned
-    all(driver_id: nil)
+    all(acknowledged_at: nil)
   end
 
   def self.in_flight
-    all(:driver_id.not => nil, :cleared_at => nil)
+    all(:driver_id.not => nil,
+        :acknowledged_at.not => nil,
+        :cleared_at => nil)
   end
 
   def driver
