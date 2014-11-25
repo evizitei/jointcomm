@@ -124,6 +124,7 @@ class JointComm < Sinatra::Base
     @call = Call.get(params[:id])
     @call.acknowledged_at = DateTime.now
     @call.save
+    TwilioProxy.send_call_clear(@call.driver, @call)
     "Call #{@call.id} Acknoweldged"
   end
 
