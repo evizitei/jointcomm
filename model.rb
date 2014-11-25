@@ -3,7 +3,7 @@ require 'data_mapper'
 require 'dm-postgres-adapter'
 require 'bcrypt'
 
-DataMapper.setup(:default, "postgres://localhost/jointcomm_dev")
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/jointcomm_dev')
 
 class User
   include DataMapper::Resource
