@@ -40,11 +40,15 @@ class JointComm < Sinatra::Base
   end
 
   get '/' do
-    erb :index
+    erb :main_layout, layout: false do
+      erb :index
+    end
   end
 
   get '/auth/login' do
-    erb :login
+    erb :main_layout, layout: false do
+      erb :login
+    end
   end
 
   post '/auth/login' do
@@ -71,8 +75,20 @@ class JointComm < Sinatra::Base
 
   get '/dispatches' do
     env['warden'].authenticate!
-    @current_user = env['warden'].user
-    erb :dispatches
+    @calls = Call.all
+    erb :main_layout, layout: false do
+      erb :dispatches
+    end
+  end
+
+  get '/calls/new' do
+    env['warden'].authenticate!
+    erb :new_call
+  end
+
+  post '/calls/create' do
+    Call.create(params[:call])
+    redirect to('/dispatches')
   end
 end
 

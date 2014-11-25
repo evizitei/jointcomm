@@ -18,5 +18,15 @@ class User
   end
 end
 
+class Call
+  include DataMapper::Resource
+
+  property :id, Serial, key: true
+  property :pickup, String
+  property :dropoff, String
+  property :phone, String
+  property :price, String
+end
+
 DataMapper.finalize
 DataMapper.auto_upgrade!
