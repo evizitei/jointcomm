@@ -23,12 +23,12 @@ class JointComm < Sinatra::Base
 
   Warden::Strategies.add(:password) do
     def valid?
+      return false unless params && params['user']
       params['user']['username'] && params['user']['password']
     end
 
     def authenticate!
       user = User.first(username: params['user']['username'])
-      puts "USER IS: #{user.inspect}"
       if user.nil?
         fail!("The username you entered does not exist")
       elsif user.authenticate(params['user']['password'])
@@ -49,24 +49,24 @@ class JointComm < Sinatra::Base
 
   post '/auth/login' do
     env['warden'].authenticate!
-    flash[:success] = env['warden'].message
+    flash[:success] = env['warden'].message || "Logged in!"
     if session[:return_to].nil?
-      redirect '/'
+      redirect to('/dispatches')
     else
-      redirect session[:return_to]
+      redirect to(session[:return_to])
     end
   end
 
   get '/auth/logout' do
     env['warden'].logout
     flash[:success] = 'Logged Out'
-    redirect '/'
+    redirect to('/')
   end
 
   post '/auth/unauthenticated' do
     session[:return_to] = env['warden.options'][:attempted_path]
     flash[:error] = env['warden'].message || "Not logged in, or login failed"
-    redirect '/auth/login'
+    redirect to('/auth/login')
   end
 
   get '/dispatches' do
