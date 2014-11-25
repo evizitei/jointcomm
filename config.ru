@@ -1,2 +1,2 @@
 require './jointcomm'
-run Sinatra::Application
+run JointComm

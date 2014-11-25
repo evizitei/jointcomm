@@ -1,0 +1,15 @@
+<section id="login-form">
+  <%= styled_flash %>
+  <h1>Login Here:</h1>
+  <form action="/auth/login" method="POST">
+    <p>
+      <label>Username:</label>
+      <input type="text" name="user[username]"></input>
+    </p>
+    <p>
+      <label>Password:</label>
+      <input type="password" name="user[password]"></input>
+    </p>
+    <button type="submit">Submit</button>
+  </form>
+</section>
