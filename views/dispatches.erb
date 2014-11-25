@@ -30,6 +30,9 @@
           <td>
             <button class='btn btn-default'>
               <a href="/calls/pick_driver?id=<%= call.id %>">Assign</a>
+              <% if call.driver_id %>
+                (Waiting for <%= call.driver.name %>...)
+              <% end %>
             </button>
           </td>
         </tr>
@@ -45,7 +48,7 @@
       <th>Dropoff</th>
       <th>Phone</th>
       <th>Driver</th>
-      <th>Timestamp</th>
+      <th>Acknowledged At</th>
     </thead>
     <tbody>
       <% @active_calls.each do |call| %>
@@ -53,7 +56,7 @@
           <td><%= call.dropoff %></td>
           <td><%= call.phone %></td>
           <td><%= call.driver.name %></td>
-          <td><%= call.created_at %></td>
+          <td><%= call.acknowledged_at %></td>
         </tr>
       <% end %>
     </tbody>
