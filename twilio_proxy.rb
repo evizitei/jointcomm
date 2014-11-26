@@ -1,5 +1,3 @@
-require './url_shortener'
-
 class TwilioProxy
   def self.send(number, message)
     client = Twilio::REST::Client.new

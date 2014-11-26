@@ -124,14 +124,14 @@ class JointComm < Sinatra::Base
     @call.acknowledged_at = DateTime.now
     @call.save
     TwilioProxy.send_call_clear(@call.driver, @call)
-    "Call #{@call.id} Acknoweldged"
+    erb :call_acknowledged
   end
 
   get "/calls/clear" do
     @call = Call.get(params[:id])
     @call.cleared_at = DateTime.now
     @call.save
-    "Call #{@call.id} Cleared"
+    erb :call_cleared
   end
 
   get '/drivers/index' do
