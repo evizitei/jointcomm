@@ -1,3 +1,4 @@
+<script src="/javascripts/dispatches.js"></script>
 <div class='page-header'>
   <h1>ETS Dispatch Center</h1>
 </div>
@@ -28,15 +29,17 @@
           <td><%= call.price %></td>
           <td><%= call.created_at %></td>
           <td>
-            <button class='btn btn-default'>
-              <a href="/calls/clear?id=<%= call.id %>">Clear</a>
+            <button class='btn btn-default clear-btn' data-id="<%=call.id%>">
+              Clear
             </button>
-            <button class='btn btn-default'>
-              <a href="/calls/pick_driver?id=<%= call.id %>">Assign</a>
-              <% if call.driver_id %>
-                (Waiting for <%= call.driver.name %>...)
-              <% end %>
-            </button>
+            <a href="/calls/pick_driver?id=<%= call.id %>">
+              <button class='btn btn-default'>
+                Assign
+                <% if call.driver_id %>
+                  (Waiting for <%= call.driver.name %>...)
+                <% end %>
+              </button>
+            </a>
           </td>
         </tr>
       <% end %>
@@ -62,8 +65,9 @@
           <td><%= call.driver.name %></td>
           <td><%= call.acknowledged_at %></td>
           <td>
-            <a href="/calls/clear?id=<%= call.id %>">
-            <button class='btn btn-default'>Clear</button></a>
+            <button class='btn btn-default clear-btn' data-id="<%=call.id%>">
+              Clear
+            </button>
           </td>
         </tr>
       <% end %>
