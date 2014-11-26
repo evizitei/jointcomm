@@ -38,7 +38,7 @@ class Call
   property :updated_on, Date
 
   def self.unassigned
-    all(acknowledged_at: nil)
+    all(acknowledged_at: nil, cleared_at: nil)
   end
 
   def self.in_flight

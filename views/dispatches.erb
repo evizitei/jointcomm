@@ -29,6 +29,9 @@
           <td><%= call.created_at %></td>
           <td>
             <button class='btn btn-default'>
+              <a href="/calls/clear?id=<%= call.id %>">Clear</a>
+            </button>
+            <button class='btn btn-default'>
               <a href="/calls/pick_driver?id=<%= call.id %>">Assign</a>
               <% if call.driver_id %>
                 (Waiting for <%= call.driver.name %>...)
@@ -49,6 +52,7 @@
       <th>Phone</th>
       <th>Driver</th>
       <th>Acknowledged At</th>
+      <th>Actions</th>
     </thead>
     <tbody>
       <% @active_calls.each do |call| %>
@@ -57,6 +61,10 @@
           <td><%= call.phone %></td>
           <td><%= call.driver.name %></td>
           <td><%= call.acknowledged_at %></td>
+          <td>
+            <a href="/calls/clear?id=<%= call.id %>">
+            <button class='btn btn-default'>Clear</button></a>
+          </td>
         </tr>
       <% end %>
     </tbody>
