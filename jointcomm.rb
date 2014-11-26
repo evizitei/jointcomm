@@ -5,7 +5,6 @@ require 'dotenv'
 Dotenv.load
 
 require './config/twilio'
-require './config/bitly'
 require './twilio_proxy'
 require './model'
 
